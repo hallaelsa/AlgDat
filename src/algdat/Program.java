@@ -20,8 +20,14 @@ import java.util.stream.Stream;
       
 
     public static void main(String ... args){
-        SBinTre<String> tre = SBinTre.balansert("ABCDDEFFGH".split(""));
-        System.out.println(tre.antall() + " " + tre.høyde() + " " + tre);
+  Integer[] a = {5,10,3,8,13,7,16,16,16,11};
+
+  SBinTre<Integer> tre = SBinTre.sbintre(Stream.of(a));  // Programkode 5.2.3 c)
+
+  System.out.println(tre.tak(1));  // Utskrift: 11
+  System.out.println(tre.tak(2));  // Utskrift: 13
+  System.out.println(tre.tak(16));
+        System.out.println(tre.maks());
         
     }
     

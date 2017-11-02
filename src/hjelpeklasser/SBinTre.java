@@ -6,6 +6,7 @@
 package hjelpeklasser;
 
 import java.util.Comparator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -168,5 +169,179 @@ public class SBinTre<T> {
     public static <T extends Comparable<? super T>> SBinTre<T> balansert(T[] a) {
         return balansert(a, Comparator.naturalOrder());
     }
+    
+    public boolean inneholder(T verdi) {
+        if (verdi == null) 
+            return false;          
+
+        Node<T> p = rot; 
+        Node<T> q = null;
+        
+        while (p != null) {
+            if(comp.compare(verdi, p.verdi) < 0) {
+                p = p.venstre;
+            } else {
+                q = p;
+                p = p.høyre;
+            }                         
+        }
+        
+        return q == null ? false : (comp.compare(verdi, p.verdi) == 0);                                
+    }
+    
+    public int antall(T verdi) {
+        Node<T> node = rot;
+        int antallVerdier = 0;
+        
+        while(node != null) {
+            if(comp.compare(verdi, node.verdi) < 0) {
+                node = node.venstre;
+            } else {
+                if(comp.compare(verdi, node.verdi) == 0) {
+                    antallVerdier++;
+                } 
+                node = node.høyre;
+            }
+        }
+        
+        return antallVerdier;
+    }
+    
+    public Liste<T> intervallsøk(T fraverdi, T tilverdi) {
+        Stakk<Node<T>> stakk = new TabellStakk<>();
+        Node<T> node = rot;
+        
+        while(node != null) {
+            int cmp = comp.compare(fraverdi, node.verdi);
+            if(cmp < 0) {
+                stakk.leggInn(node);
+                node = node.venstre;
+            } else if(cmp > 0) {
+                node = node.høyre;
+            } else {
+                break;
+            }
+        }
+        
+        if(node == null)
+            node = stakk.taUt();
+        
+        Liste liste = new TabellListe<>();
+        
+        while(node != null && comp.compare(node.verdi, tilverdi) < 0) {
+            liste.leggInn(node.verdi);
+            
+            if(node.høyre != null) {
+                node = node.høyre;
+                
+                while(node.venstre != null) {
+                    stakk.leggInn(node);
+                    node = node.venstre;
+                }
+            } else if (!stakk.tom()) {
+                node = stakk.taUt();
+            } else {
+                node = null;
+            }
+        }
+        
+        return liste;
+    }
+    
+    public T min() {
+        if(tom()) 
+            throw new NoSuchElementException("Treet er tomt!");
+
+        Node<T> node =  rot; 
+        
+        while (node.venstre != null) 
+            node = node.venstre; 
+        
+        return node.verdi;                           
+    }
+    
+    public T maks() {
+        if(tom())
+            throw new NoSuchElementException("Treet er tomt");
+        
+        Node<T> node = rot;
+        Node<T> node2 = rot;
+        
+        while(node.høyre != null) {
+            node = node.høyre;
+            if(comp.compare(node.verdi, node2.verdi) > 0)
+                node2 = node;
+        }
+        
+        return node2.verdi;
+    }
+    
+    public T gulv(T verdi) {
+        Objects.requireNonNull(verdi, "Treet har ingen nullverdier!");
+        if (tom()) 
+            throw new NoSuchElementException("Treet er tomt!");
+
+        Node<T> p = rot; 
+        T gulv = null;
+
+        while (p != null) {
+            int cmp = comp.compare(verdi, p.verdi);
+
+            if (cmp < 0) 
+                p = p.venstre;  
+            else {
+                gulv = p.verdi;           
+                p = p.høyre;
+            } 
+        }
+        return gulv;
+    }
+    
+    public T tak(T verdi) {
+        Objects.requireNonNull(verdi, "Nullverdier ikke tillatt");
+        if(tom())
+            throw new NoSuchElementException("Treet er tomt");
+        
+        Node<T> node = rot;
+        T tak = null;
+        
+        while(node != null) {
+            int cmp = comp.compare(verdi, node.verdi);
+            
+            if(cmp > 0) {
+                node = node.høyre;
+            } else {
+                tak = node.verdi;
+                node = node.venstre;
+            }
+        }
+        
+        return tak;
+    }
+    
+    public T større(T verdi) {
+        if (tom()) 
+            throw new NoSuchElementException("Treet er tomt!");
+        if (verdi == null) 
+            throw new NullPointerException("Ulovlig nullverdi!");
+
+        Node<T> p = rot;
+        T større = null;
+
+        while (p != null) {
+            int cmp = comp.compare(verdi, p.verdi);
+
+            if (cmp < 0) {
+                større = p.verdi;  // en kandidat
+                p = p.venstre;
+            } else {
+                p = p.høyre;
+            }
+        }
+        
+        return større;
+    }
+    
+    
 } 
 
