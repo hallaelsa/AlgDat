@@ -342,6 +342,29 @@ public class SBinTre<T> {
         return større;
     }
     
+    public T mindre(T verdi) {
+        if (tom()) 
+            throw new NoSuchElementException("Treet er tomt!");
+        if (verdi == null) 
+            throw new NullPointerException("Ulovlig nullverdi!");
+        
+        Node<T> node = rot;
+        T mindre = null;
+        
+        while(node != null) {
+            int cmp = comp.compare(verdi, node.verdi);
+            
+            if(cmp <= 0) {
+                node = node.venstre;
+            } else {
+                mindre = node.verdi;
+                node = node.høyre;
+            }
+        }
+        
+        return mindre;
+    }
+    
     
 } 
 

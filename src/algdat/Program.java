@@ -24,9 +24,9 @@ import java.util.stream.Stream;
 
   SBinTre<Integer> tre = SBinTre.sbintre(Stream.of(a));  // Programkode 5.2.3 c)
 
-  System.out.println(tre.tak(1));  // Utskrift: 11
-  System.out.println(tre.tak(2));  // Utskrift: 13
-  System.out.println(tre.tak(16));
+  System.out.println(tre.mindre(1));  // Utskrift: 11
+  System.out.println(tre.mindre(5));  // Utskrift: 13
+  System.out.println(tre.mindre(16));
         System.out.println(tre.maks());
         
     }
