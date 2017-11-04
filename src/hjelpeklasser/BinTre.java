@@ -6,6 +6,7 @@
 package hjelpeklasser;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -694,6 +695,50 @@ public class BinTre<T> implements Iterable<T>{
             }
         }
         return pos;
+    }
+    
+    public boolean erMintre(Comparator<? super T> c)  {
+        if (rot == null) 
+            return true;     
+        else 
+            return erMintre(rot,c);      
+    }
+
+    private static <T> boolean erMintre(Node<T> p, Comparator<? super T> c) {
+        if (p.venstre != null) {
+            if (c.compare(p.venstre.verdi, p.verdi) < 0) 
+                return false;
+            if (!erMintre(p.venstre,c)) 
+                return false;
+        }
+        if (p.høyre != null) {
+            if (c.compare(p.høyre.verdi, p.verdi) < 0) 
+                return false;
+            if (!erMintre(p.høyre, c)) 
+                return false;
+        }
+        return true;
+    }
+    
+    public String minimumsGrenen(Comparator<? super T> c) {
+        StringBuilder str = new StringBuilder();
+        Node<T> node = rot;
+        str.append("[").append(node.verdi);
+        
+        while(node != null) {
+            if(node.høyre != null) {
+                node = c.compare(node.venstre.verdi, node.høyre.verdi) 
+                        < 0 ? node.venstre : node.høyre;
+                str.append(", ").append(node.verdi);
+            } else if (node.venstre != null){
+                node = node.venstre;
+                str.append(", ").append(node.verdi);
+            } else {
+                break;
+            }
+        }
+        str.append("]");
+        return str.toString();
     }
 
 } 

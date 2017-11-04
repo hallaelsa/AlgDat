@@ -11,9 +11,25 @@ import java.util.stream.Stream;
       
 
     public static void main(String ... args){
-        Integer[] a = {2,8,6,1,7,4,3,9,5,10};
-        SBinTre<Integer> tre = SBinTre.sbintre(Stream.of(a)); 
+        int[] posisjon = {1,2,3,4,5,6};
+        Integer[] n = {1,2,3,4,5,6};
+        BinTre<Integer> tre = new BinTre<Integer>(posisjon,n);
         
+        Iterator it = tre.omvendtIterator();
+        Integer verdi = (Integer) it.next();
+        System.out.println(verdi);
+        verdi = (Integer) it.next();
+        System.out.println(verdi);
+        verdi = (Integer) it.next();
+        System.out.println(verdi);
+        verdi = (Integer) it.next();
+        System.out.println(verdi);
+        verdi = (Integer) it.next();
+        System.out.println(verdi);
+        verdi = (Integer) it.next();
+        System.out.println(verdi);
+        
+                
     }
     
     public static <T> void sorter(Kø<T> kø, Stakk<T> stakk, Comparator<? super T> c) {
