@@ -365,6 +365,55 @@ public class SBinTre<T> {
         return mindre;
     }
     
+    public boolean fjern(T verdi) {
+        if (verdi == null) 
+            return false;   
+
+        Node<T> p = rot; 
+        Node<T> q = null;    
+
+        while (p != null) {
+            int cmp = comp.compare(verdi,p.verdi);     
+            if (cmp < 0) { 
+                q = p; 
+                p = p.venstre; 
+            } else if (cmp > 0) { 
+                q = p; 
+                p = p.høyre; 
+            } else break;    
+        }
+        
+        if (p == null) 
+            return false;   
+
+        if (p.venstre == null || p.høyre == null) {
+            Node<T> b = p.venstre != null ? p.venstre : p.høyre; 
+            if (p == rot)
+                rot = b;
+            else if (p == q.venstre) 
+                q.venstre = b;
+            else 
+                q.høyre = b;
+        } else {
+            Node<T> s = p;
+            Node<T> r = p.høyre;  
+            
+            while (r.venstre != null) {
+                s = r;     
+                r = r.venstre;
+            }
+
+            p.verdi = r.verdi;   
+
+            if (s != p) 
+                s.venstre = r.høyre;
+            else 
+                s.høyre = r.høyre;
+        }
+
+        antall--;   
+        return true;
+    }
     
 } 
 

@@ -1,8 +1,6 @@
 
 package algdat;
 
-
-
 import algdat.eksempelklasser.Funksjon;
 import algdat.eksempelklasser.Heltall;
 import algdat.eksempelklasser.Komparator;
@@ -20,14 +18,11 @@ import java.util.stream.Stream;
       
 
     public static void main(String ... args){
-  Integer[] a = {5,10,3,8,13,7,16,16,16,11};
-
-  SBinTre<Integer> tre = SBinTre.sbintre(Stream.of(a));  // Programkode 5.2.3 c)
-
-  System.out.println(tre.mindre(1));  // Utskrift: 11
-  System.out.println(tre.mindre(5));  // Utskrift: 13
-  System.out.println(tre.mindre(16));
-        System.out.println(tre.maks());
+        Integer[] ints = {1,2,3,4,5,6,7,8,9};
+        SBinTre<Integer> tre = SBinTre.balansert(ints);
+        System.out.println(tre);
+        Liste<Integer> liste = tre.intervallsøk(3, 6);
+        System.out.println(liste);
         
     }
     
