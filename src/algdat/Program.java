@@ -1,28 +1,18 @@
 
 package algdat;
 
-import algdat.eksempelklasser.Funksjon;
-import algdat.eksempelklasser.Heltall;
-import algdat.eksempelklasser.Komparator;
-import algdat.eksempelklasser.Person;
-import algdat.eksempelklasser.Student;
-import algdat.eksempelklasser.Studium;
+
 import hjelpeklasser.*;
-import java.math.BigInteger;
-import java.text.Collator;
 import java.util.*;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
 
   public class Program {
       
 
     public static void main(String ... args){
-        Integer[] ints = {1,2,3,4,5,6,7,8,9};
-        SBinTre<Integer> tre = SBinTre.balansert(ints);
-        System.out.println(tre);
-        Liste<Integer> liste = tre.intervallsøk(3, 6);
-        System.out.println(liste);
+        Integer[] a = {2,8,6,1,7,4,3,9,5,10};
+        SBinTre<Integer> tre = SBinTre.sbintre(Stream.of(a)); 
         
     }
     
