@@ -2,7 +2,13 @@
 package algdat;
 
 
+import bitio.Huffman;
 import hjelpeklasser.*;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -10,26 +16,21 @@ import java.util.stream.Stream;
   public class Program {
       
 
-    public static void main(String ... args){
-        int[] posisjon = {1,2,3,4,5,6};
-        Integer[] n = {1,2,3,4,5,6};
-        BinTre<Integer> tre = new BinTre<Integer>(posisjon,n);
+    public static void main(String ... args) throws MalformedURLException, IOException{
+        String url = "http://www.cs.hioa.no/~ulfu/appolonius/kap1/3/kap13.html";
+        InputStream inn =
+          new BufferedInputStream((new URL(url)).openStream());
+
+        int[] frekvens = Huffman.streamFrekvens(inn);
+        String[] bitkoder = Huffman.stringBitkoder(frekvens);
+
+        for (int i = 0; i < bitkoder.length; i++)
+          if (bitkoder[i] != null)
+          {
+            String ut = (i < 32) ? Huffman.ascii[i] : "" + (char)i;
+            System.out.printf("%-3s =  %s %d\n",ut,bitkoder[i],frekvens[i]);
+          }
         
-        Iterator it = tre.omvendtIterator();
-        Integer verdi = (Integer) it.next();
-        System.out.println(verdi);
-        verdi = (Integer) it.next();
-        System.out.println(verdi);
-        verdi = (Integer) it.next();
-        System.out.println(verdi);
-        verdi = (Integer) it.next();
-        System.out.println(verdi);
-        verdi = (Integer) it.next();
-        System.out.println(verdi);
-        verdi = (Integer) it.next();
-        System.out.println(verdi);
-        
-                
     }
     
     public static <T> void sorter(Kø<T> kø, Stakk<T> stakk, Comparator<? super T> c) {

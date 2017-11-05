@@ -161,5 +161,52 @@ public class HeapPrioritetsKø<T> implements PrioritetsKø<T> {
 
         return s.toString();
     }
+    
+    public static void lagMaksimumsheap(int[] a) {
+        for (int i = 1; i < a.length; i++) {
+            int k = i;                                 
+            int verdi = a[i];                         
+            int forelder = (k - 1)/2;                  
+
+            while (k > 0 && verdi > a[forelder]) {
+                  a[k] = a[forelder];                     
+                  k = forelder;                            
+                  forelder = (k - 1)/2;                    
+            }
+            a[k] = verdi;                             
+        }
+    }
+    
+    public static void sorterMaksimumsheap(int[] a) {
+        for (int n = a.length - 1; n > 0; n--) {
+            int verdi = a[n];                     
+            a[n] = a[0];                         
+            int k = 0;                            
+            int m = (n - 1)/2;                    
+
+            while (k < m) {
+                int barn = 2*k + 1;                
+                if (a[barn + 1] > a[barn]) 
+                    barn++;  
+                a[k] = a[barn];                    
+                k = barn;                          
+            }
+
+            if (2*(k + 1) == n) {
+                k = 2*k + 1;                        
+                a[(k - 1)/2] = a[k];                
+            }
+
+            int forelder = (k - 1)/2;             
+
+            while (k > 0 && verdi > a[forelder]) {
+                a[k] = a[forelder];                 
+                k = forelder;                       
+                forelder = (k - 1)/2;               
+            }
+
+            a[k] = verdi;                         
+        }
+    }
 
 }  
