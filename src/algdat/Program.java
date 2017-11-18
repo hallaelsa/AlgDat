@@ -17,19 +17,15 @@ import java.util.stream.Stream;
       
 
     public static void main(String ... args) throws MalformedURLException, IOException{
-        String url = "http://www.cs.hioa.no/~ulfu/appolonius/kap1/3/kap13.html";
-        InputStream inn =
-          new BufferedInputStream((new URL(url)).openStream());
+        String[] navn = {"Olga","Basir","Ali","Per","Elin","Siri",
+                   "Ole","Mette","Anne","Åse","Leif","Mona","Lise"};
 
-        int[] frekvens = Huffman.streamFrekvens(inn);
-        String[] bitkoder = Huffman.stringBitkoder(frekvens);
+  LenketHashTabell<String> hashtabell = new LenketHashTabell<>();
 
-        for (int i = 0; i < bitkoder.length; i++)
-          if (bitkoder[i] != null)
-          {
-            String ut = (i < 32) ? Huffman.ascii[i] : "" + (char)i;
-            System.out.printf("%-3s =  %s %d\n",ut,bitkoder[i],frekvens[i]);
-          }
+  for (String n : navn) hashtabell.leggInn(n);
+
+  System.out.println(hashtabell);
+        
         
     }
     
