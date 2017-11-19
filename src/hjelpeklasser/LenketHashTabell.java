@@ -53,7 +53,7 @@ public class LenketHashTabell<T> implements Beholder<T> {
         Objects.requireNonNull(verdi, "verdi er null!");
 
         if (antall >= grense) {
-          // her skal metoden utvid() kalles, men det tas opp senere
+            utvid();
         }
 
         int hashverdi = verdi.hashCode() & 0x7fffffff;  // fjerner fortegn
@@ -78,19 +78,86 @@ public class LenketHashTabell<T> implements Beholder<T> {
         return s.toString();
     }
     
+    private void utvid() {
+        @SuppressWarnings({"rawtypes","unchecked"})      
+        Node<T>[] nyhash = new Node[2*hash.length + 1];   
+
+        for (int i = 0; i < hash.length; i++) {
+            Node<T> p = hash[i];                           
+
+            while (p != null) {
+                Node<T> q = p.neste;                          
+                int nyindeks = p.hashverdi % nyhash.length;   
+
+                p.neste = nyhash[nyindeks];                  
+
+                nyhash[nyindeks] = p;
+                p = q;                                      
+            }
+
+            hash[i] = null;                                
+        }
+
+        hash = nyhash;                                  
+        grense = (int)(tetthet * hash.length);           
+    }
+    
     @Override
     public boolean inneholder(T verdi) {
-      throw new UnsupportedOperationException();
+        if (verdi == null) 
+            return false;        
+        
+        int hashverdi = verdi.hashCode() & 0x7fffffff;  
+        Node<T> p = hash[hashverdi % hash.length];      
+
+        while (p != null) {
+            if (verdi.equals(p.verdi)) 
+                return true;
+            p = p.neste;
+        }
+
+        return false;
+        
     }
 
     @Override
     public boolean fjern(T verdi) {
-      throw new UnsupportedOperationException();
+        if (verdi == null) 
+            return false;                
+        int hashverdi = verdi.hashCode() & 0x7fffffff;     
+        int indeks = hashverdi % hash.length;              
+
+        Node<T> p = hash[indeks];
+        Node<T> q = null;               
+
+        while (p != null) {
+          if (verdi.equals(p.verdi)) 
+              break;               
+          p = (q = p).neste;                               
+        }
+
+        if (p == null) {
+            return false;
+        } else {
+            if (p == hash[indeks]) {
+                hash[indeks] = p.neste;
+            } else {
+                q.neste = p.neste;
+            }   
+        }
+
+        antall--;                                          
+        return true;   
     }
 
     @Override
     public void nullstill() {
-      throw new UnsupportedOperationException();
+        if (antall > 0) {
+            antall = 0;
+            for (int i = 0; i < hash.length; i++) {
+                hash[i] = null;
+            }
+        }
     }
 
     @Override

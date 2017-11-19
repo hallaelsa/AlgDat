@@ -18,13 +18,20 @@ import java.util.stream.Stream;
 
     public static void main(String ... args) throws MalformedURLException, IOException{
         String[] navn = {"Olga","Basir","Ali","Per","Elin","Siri",
-                   "Ole","Mette","Anne","Åse","Leif","Mona","Lise"};
+                   "Ole","Mette","Anne","Åse","Leif","Mona","Lise", "Anna", "Pernille"};
 
-  LenketHashTabell<String> hashtabell = new LenketHashTabell<>();
+        LenketHashTabell<String> hashtabell = new LenketHashTabell<>(2);
 
-  for (String n : navn) hashtabell.leggInn(n);
+        for (String s : navn) 
+            System.out.printf("%6s",s);
+        System.out.printf("\n");
+        for (String s : navn) 
+            System.out.printf("%6d",s.hashCode() % 11);
+        System.out.printf("\n");
+        for (String s : navn) 
+            System.out.printf("%6d",s.hashCode() % 23);
+        System.out.printf("\n");
 
-  System.out.println(hashtabell);
         
         
     }
